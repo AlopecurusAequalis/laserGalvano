@@ -29,7 +29,7 @@ void stop(){
   digitalWrite(STBY, LOW);
 }
 
-float calcMotorInputX(long passedRefValue, long nowRefValue, long passedAng, long nowAng, float stepTime){
+float calcMotorInputX(long passedRefValue, long nowRefValue, long passedAng, long nowAng, long stepTime){
   if (abs(errorX) > 160000){
     errorX = 160000*errorX/abs(errorX);
   }
@@ -42,7 +42,7 @@ float calcMotorInputX(long passedRefValue, long nowRefValue, long passedAng, lon
   input = pgainXFloat*errorX + dgainXFloat*(errorDiff)/stepTime + igainXFloat*(iErrorX);
   return input;
 }
-float calcMotorInputY(long passedRefValue, long nowRefValue, long passedAng, long nowAng, float stepTime){
+float calcMotorInputY(long passedRefValue, long nowRefValue, long passedAng, long nowAng, long stepTime){
   if (abs(errorY) > 160000){
     errorY = 160000*errorY/abs(errorY);
   }
