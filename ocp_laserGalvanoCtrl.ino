@@ -141,7 +141,7 @@ void Timer3_handler(void) {
 //    Serial.print(" , ");
 //    Serial.print(pgainXFloat);
 //    Serial.print(" , ");
-    Serial.print("motorPower:"); 
+    Serial.print("motorPower:");
     Serial.println(motorPowerX);
 //    Serial.print(" . ");
 //    Serial.print(referenceAngX);
