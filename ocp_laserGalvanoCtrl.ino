@@ -172,6 +172,16 @@ void Timer3_handler(void) {
 void loop(){
   Serial.println("Please select gain (p,i,d)or(P,I,D) ");
   getInput();
+  if (receiveData[0] == 'S'){
+    Timer3.stop();
+     move(1, 0, 1);
+     move(2, 0, 1);
+    Serial.println("loop停止しました");
+  }
+  if (receiveData[0] == 's'){
+    Timer3.start(250);
+    Serial.println("loop開始しました");
+  }  
   // 処理1
   if (receiveData[0] == 'p'){
     Serial.println("P gain = ");
