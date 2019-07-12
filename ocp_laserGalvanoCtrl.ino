@@ -47,8 +47,6 @@ long iErrorY;
 
 long passedTime;
 
-//word val1;
-//word val2;
 long nowAngX;
 long nowAngY;
 long referenceAngX = 0;
