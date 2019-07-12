@@ -37,8 +37,9 @@ float calcMotorInputX(long passedRefValue, long nowRefValue, long passedAng, lon
   long error_pre;
   errorX = nowRefValue - nowAng;
   error_pre = passedRefValue - passedAng;
+  double errorDiff = errorX - error_pre;
   iErrorX = iErrorX + errorX;
-  input = pgainXFloat*errorX + dgainXFloat*(errorX-error_pre)/stepTime + igainXFloat*(iErrorX);
+  input = pgainXFloat*errorX + dgainXFloat*(errorDiff)/stepTime + igainXFloat*(iErrorX);
   return input;
 }
 float calcMotorInputY(long passedRefValue, long nowRefValue, long passedAng, long nowAng, float stepTime){
@@ -49,7 +50,8 @@ float calcMotorInputY(long passedRefValue, long nowRefValue, long passedAng, lon
   long error_pre;
   errorY = nowRefValue - nowAng;
   error_pre = passedRefValue - passedAng;
+  double errorDiff = errorY - error_pre;
   iErrorY = iErrorY + errorY;
-  input = pgainYFloat*errorY + dgainYFloat*(errorY-error_pre)/stepTime + igainYFloat*(iErrorY);
+  input = pgainYFloat*errorY + dgainYFloat*(errorDiff)/stepTime + igainYFloat*(iErrorY);
   return input;
 }
