@@ -1,6 +1,5 @@
 #include <AS5048A.h>
 #include <DueTimer.h>
-//#include <MsTimer2.h>
 #include <stdio.h>
 #define LengthColumn 242
 
@@ -23,39 +22,14 @@ int PWMB = 5; //Speed control
 int BIN1 = 11; //Direction
 int BIN2 = 12; //Direction
 
-float pgainXFloat = 0;
-float igainXFloat = 0;
-float dgainXFloat = 0;
-
-float pgainYFloat = 0;
-float igainYFloat = 0;
-float dgainYFloat = 0;
-// シリアルから読み取るときはInt型しかだめなので
-int pgainXInt = 0;
-int igainXInt = 0;
-int dgainXInt = 0;
-
-int pgainYInt = 0;
-int igainYInt = 0;
-int dgainYInt = 0;
-
-long errorX;
-long errorY;
-
-// D制御は使う予定が無いためコメントアウト
-// long iErrorX;
-// long iErrorY;
-
-long nowAngX;
-long nowAngY;
-long referenceAngX = 0;
-long referenceAngY = 0;
-long passedAngX;
-long passedAngY;
-long motorPowerX = 0;
-long motorPowerY = 0;
-long passedmotorPowerX;
-long passedmotorPowerY;
+float pidGainFloat[2][3];
+int pidGainInt[2][3]; // シリアルから読み取るときはInt型しかだめなので
+// {{xNow, xPrevious}, {yNow, yPrevious}}
+// value[0][0] -> xNow, value[0][1] -> xPrevious, value[1][0] -> yNow,
+long error[2][2];
+long angle[2][2];
+long referenceAngle[2][2];
+long motorPower[2][2];
 
 //割り込み用
 int step = 0;
@@ -83,59 +57,15 @@ void setup(){
   //  MsTimer2::set(5, control);
   //  MsTimer2::start();
   Serial.begin(115200);
+
+  attachInterrupt(50, getPDgainFromAnalogread, LOW);
 }
 
 void loop(){
-  Serial.println("Please select gain (p,i,d)or(P,I,D) ");
-  getInput();
   if (receiveData[0] == 'S'){
     Timer3.stop();
-     move(1, 0, 1);
-     move(2, 0, 1);
+     move(1, 0);
+     move(2, 0);
     Serial.println("loop停止しました");
-  }
-  if (receiveData[0] == 's'){
-    Timer3.start(250);
-    Serial.println("loop開始しました");
-  }
-  // 処理1
-  if (receiveData[0] == 'p'){
-    Serial.println("P gain = ");
-    getInput();
-    pgainXInt = atoi(receiveData);
-    Serial.println(pgainXInt);
-  }
-  if (receiveData[0] == 'i'){
-    Serial.println("I gain = ");
-    getInput();
-    errorX = 0; // 積分器のリセット
-    igainXInt = atoi(receiveData);
-    Serial.println(igainXInt);
-  }
-  if (receiveData[0] == 'd'){
-    Serial.println("D gain = ");
-    getInput();
-    dgainXInt = atoi(receiveData);
-    Serial.println(dgainXInt);
-  }
-  // 処理2
-  if (receiveData[0] == 'P'){
-    Serial.println("P gain2 = ");
-    getInput();
-    pgainYInt = atoi(receiveData);
-    Serial.println(pgainYInt);
-  }
-  if (receiveData[0] == 'I'){
-    Serial.println("I gain2 = ");
-    getInput();
-    errorY = 0; // 積分器のリセット
-    igainYInt = atoi(receiveData);
-    Serial.println(igainYInt);
-  }
-  if (receiveData[0] == 'D'){
-    Serial.println("D gain2 = ");
-    getInput();
-    dgainYInt = atoi(receiveData);
-    Serial.println(dgainYInt);
   }
 }
