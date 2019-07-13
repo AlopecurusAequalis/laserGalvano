@@ -10,6 +10,7 @@ AS5048A angleSensorX(4);
 AS5048A angleSensorY(10);
 
 unsigned long millis();
+long passedTime;
 int STBY = 13; //standby
 
 //Motor A
@@ -45,7 +46,6 @@ long errorY;
 long iErrorX;
 long iErrorY;
 
-long passedTime;
 
 long nowAngX;
 long nowAngY;
