@@ -62,10 +62,13 @@ void setup(){
 }
 
 void loop(){
+  getInput();
   if (receiveData[0] == 'S'){
     Timer3.stop();
      move(1, 0);
      move(2, 0);
-    Serial.println("loop停止しました");
+     Serial.print("k");
+     debugSerialPrint();   
+     Timer3.start(500);
   }
 }

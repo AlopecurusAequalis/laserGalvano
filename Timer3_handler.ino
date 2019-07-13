@@ -16,6 +16,11 @@ void Timer3_handler(void) {
   angle[1][0] = angleSensorY.getRawRotation();
 
   for (int xyIdx = 0; xyIdx <= 1; xyIdx++){
+    error[xyIdx][1] = error[xyIdx][0];
+    error[xyIdx][0] = referenceAngle[xyIdx][0] - angle[xyIdx][0];
+  }
+
+  for (int xyIdx = 0; xyIdx <= 1; xyIdx++){
     motorPower[xyIdx][1] = motorPower[xyIdx][0];
   }
   calcMotorInput();
@@ -23,6 +28,6 @@ void Timer3_handler(void) {
     move(xyIdx, motorPower[xyIdx][0]);
   }
 
-  debugSerialOut(step);
+//  debugSerialOut(step);
   passedTime = micros();
 }
