@@ -58,7 +58,7 @@ void setup(){
   //  MsTimer2::start();
   Serial.begin(115200);
 
-  attachInterrupt(50, getPDgainFromAnalogread, LOW);
+  attachInterrupt(50, getPDgainFromAnalogread, FALLING);
 }
 
 void loop(){
@@ -68,7 +68,7 @@ void loop(){
      move(1, 0);
      move(2, 0);
      Serial.print("k");
-     debugSerialPrint();   
+     debugSerialPrint();
      Timer3.start(500);
   }
 }
